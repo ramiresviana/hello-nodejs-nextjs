@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import Link from 'next/link'
+import { getArticles } from '../utils'
 
 export default function Home( { articles } ) {
   function Actions() {
@@ -20,17 +20,19 @@ export default function Home( { articles } ) {
 
   function Article(props) {
     return (
-      <a href="#">
-        <article class="mb-5 text-dark">
-          <div class="media d-block d-md-flex">
-            <img src={props.image} class="mr-3"/>
-            <div class="media-body">
-              <h4 class="my-3">{props.title}</h4>
-              <p>{props.content}</p>
+      <Link href={ `/article/${props.id}` }>
+        <a>
+          <article class="mb-5 text-dark">
+            <div class="media d-block d-md-flex">
+              <img src={props.image} class="mr-3"/>
+              <div class="media-body">
+                <h4 class="my-3">{props.title}</h4>
+                <p>{props.content}</p>
+              </div>
             </div>
-          </div>
-        </article>
-      </a>
+          </article>
+        </a>
+      </Link>
     )
   }
 
@@ -53,8 +55,7 @@ export default function Home( { articles } ) {
 }
 
 export async function getStaticProps(context) {
-  const articlesData = fs.readFileSync(path.join(process.cwd(), 'data', 'articles.json'), 'utf-8');
-  const articles = JSON.parse(articlesData)
+  const articles = await getArticles()
 
   return {
       props: { articles }
