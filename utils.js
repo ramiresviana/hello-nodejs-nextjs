@@ -1,11 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 
-export async function getArticles() {
-    const articlesData = fs.readFileSync(path.join(process.cwd(), 'data', 'articles.json'), 'utf-8');
-    const articles = JSON.parse(articlesData)
+const allArticles = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'articles.json'), 'utf-8'))
 
-    return articles
+export async function getArticles() {
+    return allArticles
 }
 
 export async function getArticle(id) {
@@ -25,6 +24,24 @@ export async function createArticle(title, content) {
     }
 
     articles.push(article)
+    fs.writeFileSync(path.join(process.cwd(), 'data', 'articles.json'), JSON.stringify(articles, null, 4))
+
+    return article
+}
+
+export async function updateArticle(id, title, content) {
+    const articles = await getArticles()
+    const article = await getArticle(id)
+    const index = articles.indexOf(article)
+
+    const image = (Math.floor(Math.random() * 3) + 1) + '.jpg'
+
+    article.title = title
+    article.content = content
+    article.image = image
+
+    articles[index] = article
+
     fs.writeFileSync(path.join(process.cwd(), 'data', 'articles.json'), JSON.stringify(articles, null, 4))
 
     return article

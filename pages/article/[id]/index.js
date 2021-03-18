@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { getArticles, getArticle } from '../../utils'
+import { getArticles, getArticle } from '../../../utils'
 
 export default function Article({ article }) {
     const router = useRouter()
