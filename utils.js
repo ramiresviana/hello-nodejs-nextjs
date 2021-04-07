@@ -46,3 +46,13 @@ export async function updateArticle(id, title, content) {
 
     return article
 }
+
+export async function removeArticle(id) {
+    const articles = await getArticles()
+    const article = await getArticle(id)
+    const index = articles.indexOf(article)
+
+    articles.splice(index, 1)
+
+    fs.writeFileSync(path.join(process.cwd(), 'data', 'articles.json'), JSON.stringify(articles, null, 4))
+}

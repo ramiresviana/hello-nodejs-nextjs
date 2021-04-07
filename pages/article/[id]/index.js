@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getArticles, getArticle } from '../../../utils'
 
@@ -9,8 +10,8 @@ export default function Article({ article }) {
         return (
             <>
                 <hr class="my-5" />
-                <button type="button" class="btn btn-lg btn-primary">Edit</button>
-                <button type="button" class="btn btn-lg btn-danger">Remove</button>
+                <Link href={ `/article/${article.id}/edit` }><a class="btn btn-lg btn-primary">Edit</a></Link>
+                <Link href={ `/article/${article.id}/remove` }><a class="btn btn-lg btn-danger">Remove</a></Link>
             </>
         )
     }
